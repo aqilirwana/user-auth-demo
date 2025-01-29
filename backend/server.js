@@ -19,6 +19,7 @@ const allowedOrigins = ['https://user-auth-demo-frontend.vercel.app/']; //Fronte
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Allow CORS
 app.use(
   cors({
     origin: allowedOrigins,
