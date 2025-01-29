@@ -16,9 +16,6 @@ const app = express();
 
 const allowedOrigins = ['https://user-auth-demo-frontend.vercel.app/']; //Frontend URL
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Allow CORS
 app.use(
   cors({
@@ -26,6 +23,11 @@ app.use(
     credentials: true, // Allow cookies if needed
   })
 );
+
+app.options('*', cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
