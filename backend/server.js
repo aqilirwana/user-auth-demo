@@ -15,20 +15,27 @@ connectDB();
 const app = express();
 
 // Allow requests from your deployed frontend
-const allowedOrigins = ['https://user-auth-demo-frontend.vercel.app'];
+const allowedOrigins = 'https://user-auth-demo-frontend.vercel.app';
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//     credentials: true, // Allow cookies if needed
+//     allowedHeaders: ['Content-Type', 'Authorization'], // Explicitly allow required headers
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed request methods
+//   })
+// );
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true, // Allow cookies if needed
-    allowedHeaders: ['Content-Type', 'Authorization'], // Explicitly allow required headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed request methods
+    origin: allowedOrigins, // ✅ Your frontend URL
+    credentials: true, // ✅ Allow cookies
   })
 );
 
