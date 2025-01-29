@@ -14,17 +14,32 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ['https://user-auth-demo-frontend.vercel.app/']; //Frontend URL
+// Allow requests from your deployed frontend
+const allowedOrigins = ['https://user-auth-demo-frontend.vercel.app'];
 
-// Allow CORS
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true, // Allow cookies if needed
+    allowedHeaders: ['Content-Type', 'Authorization'], // Explicitly allow required headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed request methods
   })
 );
 
-app.options('*', cors());
+// Handle preflight requests
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://user-auth-demo-frontend.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(204);
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
