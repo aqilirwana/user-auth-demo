@@ -19,4 +19,7 @@ import react from '@vitejs/plugin-react';
 //production
 export default defineConfig({
   plugins: [react()],
+  server: {
+    historyApiFallback: true, // This ensures that React Router works correctly
+  }
 });
